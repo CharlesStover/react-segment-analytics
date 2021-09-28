@@ -1,8 +1,10 @@
 import { useCallback, useEffect } from 'react';
 import ANALYTICS_WINDOW from '../../constants/analytics-window';
+import MISSING_WINDOW_ANALYTICS_ERROR from '../../constants/missing-window-analytics-error';
 import type AddressTrait from '../../types/address-trait';
 import type CompanyTrait from '../../types/company-trait';
 import type IdentifyTraits from '../../types/identify-traits';
+import type SegmentPage from '../../types/segment-page';
 import type SegmentTrack from '../../types/segment-track';
 import type Traits from '../../types/traits';
 import filterByUndefined from '../../utils/filter-by-undefined';
@@ -17,6 +19,7 @@ interface Props {
 }
 
 interface State {
+  readonly page: SegmentPage;
   readonly track: SegmentTrack;
 }
 
@@ -177,17 +180,37 @@ export default function useSegment({
   ]);
 
   return {
+    page: useCallback(
+      async (
+        category?: string,
+        pageName?: string,
+        properties?: Record<string, unknown>,
+        options?: unknown,
+      ): Promise<void> => {
+        await new Promise((resolve, reject): void => {
+          if (typeof ANALYTICS_WINDOW.analytics === 'undefined') {
+            reject(MISSING_WINDOW_ANALYTICS_ERROR);
+            return;
+          }
+
+          ANALYTICS_WINDOW.analytics.page(
+            category,
+            pageName,
+            properties,
+            options,
+            resolve,
+          );
+        });
+      },
+      [],
+    ),
+
     track: useCallback(
-      (
+      async (
         event: string,
         properties?: Record<string, unknown>,
         options?: unknown,
-        callback?: () => void,
-      ): void => {
-        if (typeof ANALYTICS_WINDOW.analytics === 'undefined') {
-          return;
-        }
-
+      ): Promise<void> => {
         const getEvent = (): string => {
           if (typeof eventPrefix === 'string') {
             return `${eventPrefix} ${event}`;
@@ -195,12 +218,19 @@ export default function useSegment({
           return event;
         };
 
-        ANALYTICS_WINDOW.analytics.track(
-          getEvent(),
-          properties,
-          options,
-          callback,
-        );
+        await new Promise((resolve, reject): void => {
+          if (typeof ANALYTICS_WINDOW.analytics === 'undefined') {
+            reject(MISSING_WINDOW_ANALYTICS_ERROR);
+            return;
+          }
+
+          ANALYTICS_WINDOW.analytics.track(
+            getEvent(),
+            properties,
+            options,
+            resolve,
+          );
+        });
       },
       [eventPrefix],
     ),

@@ -1,22 +1,22 @@
-# <Segment />
+# React Segment Analytics
 
-[![version](https://img.shields.io/npm/v/segment-react.svg)](https://www.npmjs.com/package/segment-react)
-[![minzipped size](https://img.shields.io/bundlephobia/minzip/segment-react.svg)](https://www.npmjs.com/package/segment-react)
-[![downloads](https://img.shields.io/npm/dt/segment-react.svg)](https://www.npmjs.com/package/segment-react)
-[![GitHub Action: Push](https://github.com/CharlesStover/segment-react/actions/workflows/push.yml/badge.svg)](https://github.com/CharlesStover/segment-react/actions/workflows/push.yml)
+[![version](https://img.shields.io/npm/v/react-segment-analytics.svg)](https://www.npmjs.com/package/react-segment-analytics)
+[![minzipped size](https://img.shields.io/bundlephobia/minzip/react-segment-analytics.svg)](https://www.npmjs.com/package/react-segment-analytics)
+[![downloads](https://img.shields.io/npm/dt/react-segment-analytics.svg)](https://www.npmjs.com/package/react-segment-analytics)
+[![GitHub Action: Push](https://github.com/CharlesStover/react-segment-analytics/actions/workflows/push.yml/badge.svg)](https://github.com/CharlesStover/react-segment-analytics/actions/workflows/push.yml)
 
-React integration for Segment
+React integration for Segment Analytics
 
 ## Install
 
-- `npm install segment-react` or
-- `yarn add segment-react`
+- `npm install react-segment-analytics` or
+- `yarn add react-segment-analytics`
 
 ## Use
 
 ```javascript
 import { render } from 'react-dom';
-import Segment from 'segment-react';
+import Segment from 'react-segment-analytics';
 import { App } from './components';
 
 render(
@@ -32,7 +32,7 @@ render(
 ### `Segment`
 
 ```javascript
-import Segment from 'segment-react';
+import Segment from 'react-segment-analytics';
 ```
 
 #### Props
@@ -58,7 +58,7 @@ The `traits` prop defines traits associated with the user during identification.
 Be sure to provide the `id` trait to make the user onymous.
 
 ```typescript
-import type { Traits } from 'segment-react';
+import type { Traits } from 'react-segment-analytics';
 ```
 
 ## Contributing

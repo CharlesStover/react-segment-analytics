@@ -1,9 +1,9 @@
 {
-  "name": "segment-react",
+  "name": "react-segment-analytics",
   "version": "0.1.0",
-  "author": "Charles Stover <segment-react@charlesstover.com>",
+  "author": "Charles Stover <react-segment-analytics@charlesstover.com>",
   "description": "DESCRIPTION",
-  "homepage": "https://www.npmjs.com/package/segment-react",
+  "homepage": "https://www.npmjs.com/package/react-segment-analytics",
   "license": "MIT",
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.js",
@@ -11,8 +11,8 @@
   "type": "module",
   "types": "./types/index.d.ts",
   "bugs": {
-    "email": "segment-react@charlesstover.com",
-    "url": "https://github.com/CharlesStover/segment-react/issues"
+    "email": "react-segment-analytics@charlesstover.com",
+    "url": "https://github.com/CharlesStover/react-segment-analytics/issues"
   },
   "directories": {
     "lib": "src"
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CharlesStover/segment-react.git"
+    "url": "https://github.com/CharlesStover/react-segment-analytics.git"
   },
   "scripts": {
     "eslint": "eslint src",
