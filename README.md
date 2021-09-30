@@ -37,10 +37,6 @@ import Segment from 'react-segment-analytics';
 
 #### Props
 
-##### `writeKey`
-
-Type: `string` (required)
-
 ##### `eventPrefix`
 
 Type: `string` (optional)
@@ -60,6 +56,63 @@ Be sure to provide the `id` trait to make the user onymous.
 ```typescript
 import type { Traits } from 'react-segment-analytics';
 ```
+
+##### `writeKey`
+
+Type: `string` (required)
+
+### Hooks
+
+#### `useSegmentPage`
+
+```javascript
+import { useEffect } from 'react';
+import { useSegmentPage } from 'react-segment-analytics';
+
+function Home() {
+  const page = useSegmentPage();
+
+  useEffect(() => {
+    page('Home');
+  }, [page]);
+
+  return (
+    <main>
+      <h1>Home</h1>
+      {/* ... */}
+    </main>
+  );
+}
+```
+
+The `useSegmentPage` hook returns a function that, when called, denotes a page
+change event. The `page` function accepts an optional page category (`string`),
+optional page name (`string`), and optional page properties
+(`Record<string, unknown>`) as its first, second, and third parameters
+respectively. The page function returns a Promise that monitors the network
+request to Segment.
+
+#### `useSegmentTrack`
+
+```javascript
+import { useSegmentTrack } from 'react-segment-analytics';
+
+function MyButton() {
+  const track = useSegmentTrack();
+
+  const handleClick = () => {
+    track('Button click');
+  };
+
+  return <button onClick={handleClick}>Click me</button>;
+}
+```
+
+The `useSegmentTrack` hook returns a function that, when called, emits an event
+to Segment. The track function accepts a required event name (`string`) and
+optional event properties (`Record<string, unknown>`) as its first and second
+parameters respectively. The track function returns a Promise that monitors the
+the network request to Segment.
 
 ## Contributing
 

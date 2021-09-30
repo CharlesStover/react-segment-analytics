@@ -5,6 +5,6 @@ export default interface SegmentPage {
     properties?: Record<string, unknown>,
     options?: unknown,
     callback?: () => void,
-  ): void;
+  ): Promise<void>;
   readonly length: number;
 }

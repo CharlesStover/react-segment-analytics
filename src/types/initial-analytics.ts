@@ -5,7 +5,7 @@ export default interface InitialAnalytics
   debug?: (...args: readonly unknown[]) => InitialAnalytics;
   group?: (...args: readonly unknown[]) => InitialAnalytics;
   identify?: (...args: readonly unknown[]) => InitialAnalytics;
-  initialize?: boolean | undefined;
+  initialize?: (...args: readonly unknown[]) => InitialAnalytics;
   invoked?: boolean | undefined;
   load?: (writeKey: string, options?: unknown) => void;
   methods?: string[];
