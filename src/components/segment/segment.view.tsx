@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import PageContext from '../../contexts/page';
 import TrackContext from '../../contexts/track';
 import type Traits from '../../types/traits';
-import useSegment from './segment.root.hook';
+import useSegment from './segment.hook';
 
 interface Props {
   readonly children: ReactNode;

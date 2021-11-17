@@ -1,7 +1,9 @@
 import type { SegmentAnalytics } from '@segment/analytics.js-core';
-import ANALYTICS_WINDOW from '../constants/analytics-window';
+import type AnalyticsWindow from '../types/analytics-window';
+import getAnalyticsWindow from '../utils/get-analytics-window';
 import init from './init';
 
+const ANALYTICS_WINDOW: AnalyticsWindow = getAnalyticsWindow();
 const ONCE = 1;
 const TEST_CONSOLE_ERROR = jest.fn();
 
@@ -17,6 +19,7 @@ describe('init', (): void => {
     if (typeof analytics === 'undefined') {
       throw new Error('Expected Segment Analytics to be initialized.');
     }
+
     analytics.initialize = (): SegmentAnalytics.AnalyticsJS => analytics;
     init('test-write-key');
   });

@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
-import ANALYTICS_WINDOW from '../../constants/analytics-window';
-import type AddressTrait from '../../types/address-trait';
-import type CompanyTrait from '../../types/company-trait';
-import type IdentifyTraits from '../../types/identify-traits';
-import type Traits from '../../types/traits';
-import filterByUndefined from '../../utils/filter-by-undefined';
-import mapValueToIsoDate from '../../utils/map-value-to-iso-date';
-import mapValueToString from '../../utils/map-value-to-string';
+import type AddressTrait from '../../../types/address-trait';
+import type AnalyticsWindow from '../../../types/analytics-window';
+import type CompanyTrait from '../../../types/company-trait';
+import type IdentifyTraits from '../../../types/identify-traits';
+import type Traits from '../../../types/traits';
+import filterByUndefined from '../../../utils/filter-by-undefined';
+import getAnalyticsWindow from '../../../utils/get-analytics-window';
+import mapValueToIsoDate from '../../../utils/map-value-to-iso-date';
+import mapValueToString from '../../../utils/map-value-to-string';
 
 const DEFAULT_ADDRESS_TRAIT: AddressTrait = Object.freeze({});
 const DEFAULT_COMPANY_TRAIT: CompanyTrait = Object.freeze({});
@@ -52,7 +53,8 @@ export default function useIdentify(
   } = company ?? DEFAULT_COMPANY_TRAIT;
 
   useEffect((): void => {
-    if (typeof ANALYTICS_WINDOW.analytics === 'undefined') {
+    const analyticsWindow: AnalyticsWindow = getAnalyticsWindow();
+    if (typeof analyticsWindow.analytics === 'undefined') {
       return;
     }
 
@@ -130,7 +132,7 @@ export default function useIdentify(
       return;
     }
 
-    ANALYTICS_WINDOW.analytics.identify(identifyId, identifyTraits);
+    analyticsWindow.analytics.identify(identifyId, identifyTraits);
   }, [
     addressCity,
     addressCountry,

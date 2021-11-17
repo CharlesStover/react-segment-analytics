@@ -1,9 +1,11 @@
 import { renderHook } from '@testing-library/react-hooks';
-import ANALYTICS_WINDOW from '../../constants/analytics-window';
-import type Traits from '../../types/traits';
-import init from '../../utils/init';
-import useIdentify from './segment.root.hook.identify';
+import type AnalyticsWindow from '../../../types/analytics-window';
+import type Traits from '../../../types/traits';
+import getAnalyticsWindow from '../../../utils/get-analytics-window';
+import init from '../../../utils/init';
+import useIdentify from './use-identify';
 
+const ANALYTICS_WINDOW: AnalyticsWindow = getAnalyticsWindow();
 const EMPTY = 0;
 const FIRST_ITEM = 0;
 const SECOND_ITEM = 1;

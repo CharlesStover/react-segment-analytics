@@ -1,1 +1,1 @@
-export { default } from './segment.root.view';
+export { default } from './segment.view';

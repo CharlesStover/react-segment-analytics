@@ -1,12 +1,13 @@
 import type { MutableRefObject } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
-import ANALYTICS_WINDOW from '../../constants/analytics-window';
 import MISSING_WINDOW_ANALYTICS_ERROR from '../../constants/missing-window-analytics-error';
+import type AnalyticsWindow from '../../types/analytics-window';
 import type SegmentPage from '../../types/segment-page';
 import type SegmentTrack from '../../types/segment-track';
 import type Traits from '../../types/traits';
+import getAnalyticsWindow from '../../utils/get-analytics-window';
 import init from '../../utils/init';
-import useIdentify from './segment.root.hook.identify';
+import useIdentify from './hooks/use-identify';
 
 interface Props {
   readonly eventPrefix?: string | undefined;
@@ -41,7 +42,8 @@ export default function useSegment({
   useEffect((): VoidFunction => {
     init(writeKey);
     return (): void => {
-      delete ANALYTICS_WINDOW.analytics;
+      const analyticsWindow: AnalyticsWindow = getAnalyticsWindow();
+      delete analyticsWindow.analytics;
     };
   }, [writeKey]);
 
@@ -63,12 +65,13 @@ export default function useSegment({
         const newPage: Promise<void> = new Promise((resolve, reject): void => {
           asyncPageResolve.current = resolve;
 
-          if (typeof ANALYTICS_WINDOW.analytics === 'undefined') {
+          const analyticsWindow: AnalyticsWindow = getAnalyticsWindow();
+          if (typeof analyticsWindow.analytics === 'undefined') {
             reject(MISSING_WINDOW_ANALYTICS_ERROR);
             return;
           }
 
-          ANALYTICS_WINDOW.analytics.page(
+          analyticsWindow.analytics.page(
             category,
             pageName,
             properties,
@@ -100,12 +103,13 @@ export default function useSegment({
         const newTrack: Promise<void> = new Promise((resolve, reject): void => {
           asyncTrackResolve.current = resolve;
 
-          if (typeof ANALYTICS_WINDOW.analytics === 'undefined') {
+          const analyticsWindow: AnalyticsWindow = getAnalyticsWindow();
+          if (typeof analyticsWindow.analytics === 'undefined') {
             reject(MISSING_WINDOW_ANALYTICS_ERROR);
             return;
           }
 
-          ANALYTICS_WINDOW.analytics.track(
+          analyticsWindow.analytics.track(
             getEvent(),
             properties,
             options,
