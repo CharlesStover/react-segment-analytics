@@ -1,5 +1,5 @@
-import HEAD from '../constants/head';
 import type InitialAnalytics from '../types/initial-analytics';
+import getHead from '../utils/get-head';
 import getInitialAnalytics from '../utils/get-initial-analytics';
 import mapWriteKeyToScriptElement from '../utils/map-write-key-to-script-element';
 
@@ -8,7 +8,9 @@ export default function analyticsLoad(
   options?: unknown,
 ): void {
   const script: HTMLScriptElement = mapWriteKeyToScriptElement(writeKey);
-  HEAD.appendChild(script);
+
+  const head: HTMLHeadElement = getHead();
+  head.appendChild(script);
 
   const initialAnalytics: InitialAnalytics = getInitialAnalytics();
   initialAnalytics._loadOptions = options;
