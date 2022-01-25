@@ -7,16 +7,17 @@ import useSegment from './segment.hook';
 interface Props {
   readonly children: ReactNode;
   readonly eventPrefix?: string | undefined;
-  readonly traits?: Traits | undefined;
+  readonly traits?: Readonly<Traits> | undefined;
   readonly writeKey: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export default function Segment({
   children,
   eventPrefix,
   traits,
   writeKey,
-}: Props): ReactElement {
+}: Readonly<Props>): ReactElement {
   const { page, track } = useSegment({ eventPrefix, traits, writeKey });
 
   return (

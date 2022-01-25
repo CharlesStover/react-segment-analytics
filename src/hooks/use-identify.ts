@@ -1,19 +1,21 @@
 import { useEffect } from 'react';
-import type AddressTrait from '../../../types/address-trait';
-import type AnalyticsWindow from '../../../types/analytics-window';
-import type CompanyTrait from '../../../types/company-trait';
-import type IdentifyTraits from '../../../types/identify-traits';
-import type Traits from '../../../types/traits';
-import filterByUndefined from '../../../utils/filter-by-undefined';
-import getAnalyticsWindow from '../../../utils/get-analytics-window';
-import mapValueToIsoDate from '../../../utils/map-value-to-iso-date';
-import mapValueToString from '../../../utils/map-value-to-string';
+import type AddressTrait from '../types/address-trait';
+import type AnalyticsWindow from '../types/analytics-window';
+import type CompanyTrait from '../types/company-trait';
+import type IdentifyTraits from '../types/identify-traits';
+import type Traits from '../types/traits';
+import filterByUndefined from '../utils/filter-by-undefined';
+import getAnalyticsWindow from '../utils/get-analytics-window';
+import mapValueToIsoDate from '../utils/map-value-to-iso-date';
+import mapValueToString from '../utils/map-value-to-string';
+import parseStringifiedObject from '../utils/parse-stringified-object';
 
 const DEFAULT_ADDRESS_TRAIT: AddressTrait = Object.freeze({});
 const DEFAULT_COMPANY_TRAIT: CompanyTrait = Object.freeze({});
 const DEFAULT_TRAITS: Traits = Object.freeze({});
 
 export default function useIdentify(
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   traits: Readonly<Traits> | undefined,
 ): void {
   const {
@@ -34,6 +36,7 @@ export default function useIdentify(
     title,
     username,
     website,
+    ...restTraits
   } = traits ?? DEFAULT_TRAITS;
 
   const {
@@ -51,6 +54,10 @@ export default function useIdentify(
     name: companyName,
     plan: companyPlan,
   } = company ?? DEFAULT_COMPANY_TRAIT;
+
+  // Stringify remaining traits so that `useEffect`'s memoization array can
+  //   check for deep equality.
+  const restTraitsStringified: string = JSON.stringify(restTraits);
 
   useEffect((): void => {
     const analyticsWindow: AnalyticsWindow = getAnalyticsWindow();
@@ -107,7 +114,17 @@ export default function useIdentify(
     };
 
     const identifyId: string | undefined = mapValueToString(id);
+
+    // We must use `object` as a return type here instead of
+    //   `Record<string, unknown>`, because the parsed value does not have an
+    //   index signature.
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const restTraitsParsed: object = parseStringifiedObject(
+      restTraitsStringified,
+    );
+
     const identifyTraits: IdentifyTraits = {
+      ...restTraitsParsed,
       address: getAddress(),
       age,
       avatar,
@@ -156,6 +173,7 @@ export default function useIdentify(
     lastName,
     name,
     phone,
+    restTraitsStringified,
     title,
     username,
     website,

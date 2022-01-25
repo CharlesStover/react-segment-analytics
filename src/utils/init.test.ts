@@ -1,9 +1,7 @@
 import type { SegmentAnalytics } from '@segment/analytics.js-core';
-import type AnalyticsWindow from '../types/analytics-window';
-import getAnalyticsWindow from '../utils/get-analytics-window';
+import ANALYTICS_WINDOW from '../test/constants/analytics-window';
 import init from './init';
 
-const ANALYTICS_WINDOW: AnalyticsWindow = getAnalyticsWindow();
 const ONCE = 1;
 const TEST_CONSOLE_ERROR = jest.fn();
 

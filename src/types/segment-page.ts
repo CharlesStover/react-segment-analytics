@@ -1,10 +1,10 @@
 export default interface SegmentPage {
   (
-    category?: string,
-    name?: string,
-    properties?: Record<string, unknown>,
-    options?: unknown,
-    callback?: () => void,
+    category?: string | undefined,
+    name?: string | undefined,
+    properties?: Readonly<Record<string, unknown>> | undefined,
+    options?: unknown | undefined,
+    callback?: (() => void) | undefined,
   ): Promise<void>;
   readonly length: number;
 }

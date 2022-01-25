@@ -1,5 +1,5 @@
 export default function mapValueToIsoDate(
-  value: Date | number | string | undefined,
+  value: Readonly<Date> | number | string | undefined,
 ): string | undefined {
   if (typeof value === 'undefined') {
     return;

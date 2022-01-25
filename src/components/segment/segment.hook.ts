@@ -1,17 +1,17 @@
 import type { MutableRefObject } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import MISSING_WINDOW_ANALYTICS_ERROR from '../../constants/missing-window-analytics-error';
+import useIdentify from '../../hooks/use-identify';
 import type AnalyticsWindow from '../../types/analytics-window';
 import type SegmentPage from '../../types/segment-page';
 import type SegmentTrack from '../../types/segment-track';
 import type Traits from '../../types/traits';
 import getAnalyticsWindow from '../../utils/get-analytics-window';
 import init from '../../utils/init';
-import useIdentify from './hooks/use-identify';
 
 interface Props {
   readonly eventPrefix?: string | undefined;
-  readonly traits?: Traits | undefined;
+  readonly traits?: Readonly<Traits> | undefined;
   readonly writeKey: string;
 }
 
@@ -24,11 +24,12 @@ interface State {
   readonly track: SegmentTrack;
 }
 
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export default function useSegment({
   eventPrefix,
   traits,
   writeKey,
-}: Props): State {
+}: Readonly<Props>): State {
   //States
   const asyncPageCallback: MutableRefObject<Promise<unknown> | undefined> =
     useRef();
@@ -57,10 +58,10 @@ export default function useSegment({
 
     page: useCallback(
       async (
-        category?: string,
-        pageName?: string,
-        properties?: Record<string, unknown>,
-        options?: unknown,
+        category?: string | undefined,
+        pageName?: string | undefined,
+        properties?: Readonly<Record<string, unknown>> | undefined,
+        options?: unknown | undefined,
       ): Promise<void> => {
         const newPage: Promise<void> = new Promise((resolve, reject): void => {
           asyncPageResolve.current = resolve;
@@ -90,8 +91,8 @@ export default function useSegment({
     track: useCallback(
       async (
         event: string,
-        properties?: Record<string, unknown>,
-        options?: unknown,
+        properties?: Readonly<Record<string, unknown>> | undefined,
+        options?: unknown | undefined,
       ): Promise<void> => {
         const getEvent = (): string => {
           if (typeof eventPrefix === 'string') {

@@ -13,6 +13,7 @@ describe('useSegmentPage', (): void => {
   it('should return the SegmentPage context value', (): void => {
     const TEST_PAGE = jest.fn();
     const { result } = renderHook(useSegmentPage, {
+      // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
       wrapper({
         children,
       }: Readonly<PropsWithChildren<unknown>>): ReactElement {
