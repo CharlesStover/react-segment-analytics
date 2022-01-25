@@ -1,61 +1,13 @@
 import { renderHook } from '@testing-library/react-hooks';
-import type AnalyticsWindow from '../../../types/analytics-window';
-import type Traits from '../../../types/traits';
-import getAnalyticsWindow from '../../../utils/get-analytics-window';
-import init from '../../../utils/init';
+import ANALYTICS_WINDOW from '../test/constants/analytics-window';
+import getTraits from '../test/utils/get-traits';
+import initSegmentAnalytics from '../test/utils/init-segment-analytics';
+import removeSegmentAnalytics from '../test/utils/remove-segment-analytics';
 import useIdentify from './use-identify';
 
-const ANALYTICS_WINDOW: AnalyticsWindow = getAnalyticsWindow();
 const EMPTY = 0;
-const FIRST_ITEM = 0;
-const SECOND_ITEM = 1;
-const THIRD_ITEM = 2;
-
-const findIdentifyAnalytics = (
-  entry: readonly [string, ...unknown[]],
-): entry is
-  | ['identify', string, Traits, ...unknown[]]
-  | ['identify', Traits, ...unknown[]] => entry[FIRST_ITEM] === 'identify';
-
-const hasUserId = (
-  identifyAnalytics:
-    | ['identify', string, Traits, ...unknown[]]
-    | ['identify', Traits, ...unknown[]],
-): identifyAnalytics is ['identify', string, Traits, ...unknown[]] =>
-  typeof identifyAnalytics[SECOND_ITEM] === 'string';
-
-const initSegmentAnalytics = (): void => {
-  init('test-write-key');
-};
-
-const mapIdentifyAnalyticsToTraits = (
-  identifyAnalytics:
-    | ['identify', string, Traits, ...unknown[]]
-    | ['identify', Traits, ...unknown[]],
-): Traits => {
-  if (hasUserId(identifyAnalytics)) {
-    return identifyAnalytics[THIRD_ITEM];
-  }
-  return identifyAnalytics[SECOND_ITEM];
-};
-
-const getTraits = (): Traits => {
-  const analytics: [string, ...unknown[]][] =
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    ANALYTICS_WINDOW.analytics as unknown as [string, ...unknown[]][];
-  const identifyAnalytics:
-    | ['identify', string, Traits, ...unknown[]]
-    | ['identify', Traits, ...unknown[]]
-    | undefined = analytics.find(findIdentifyAnalytics);
-  if (typeof identifyAnalytics === 'undefined') {
-    throw new Error('Expected to find identify analytics.');
-  }
-  return mapIdentifyAnalyticsToTraits(identifyAnalytics);
-};
-
-const removeSegmentAnalytics = (): void => {
-  delete ANALYTICS_WINDOW.analytics;
-};
+const ONCE = 1;
+const TWICE = 2;
 
 describe('useIdentify', (): void => {
   describe('without Segment Analytics', (): void => {
@@ -140,6 +92,35 @@ describe('useIdentify', (): void => {
           id: 'test-company-id',
         },
       });
+    });
+    it('should identify when rest traits change', (): void => {
+      if (typeof ANALYTICS_WINDOW.analytics === 'undefined') {
+        throw new Error('Expected `analytics` to exist on `window`.');
+      }
+
+      const MOCK_IDENTIFY = jest.spyOn(ANALYTICS_WINDOW.analytics, 'identify');
+      const NEW_TEST_ID = 'new-test-id';
+      const OLD_TEST_ID = 'old-test-id';
+
+      const { rerender } = renderHook(useIdentify, {
+        initialProps: {
+          testId: OLD_TEST_ID,
+        },
+      });
+
+      expect(MOCK_IDENTIFY).toHaveBeenCalledTimes(ONCE);
+
+      rerender({
+        testId: OLD_TEST_ID,
+      });
+
+      expect(MOCK_IDENTIFY).toHaveBeenCalledTimes(ONCE);
+
+      rerender({
+        testId: NEW_TEST_ID,
+      });
+
+      expect(MOCK_IDENTIFY).toHaveBeenCalledTimes(TWICE);
     });
   });
 });

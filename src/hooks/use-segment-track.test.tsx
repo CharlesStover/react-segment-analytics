@@ -13,6 +13,7 @@ describe('useSegmentTrack', (): void => {
   it('should return the SegmentTrack context value', (): void => {
     const TEST_TRACK = jest.fn();
     const { result } = renderHook(useSegmentTrack, {
+      // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
       wrapper({
         children,
       }: Readonly<PropsWithChildren<unknown>>): ReactElement {

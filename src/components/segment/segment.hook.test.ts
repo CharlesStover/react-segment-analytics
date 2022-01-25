@@ -1,11 +1,8 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import type { MutableRefObject } from 'react';
 import MISSING_WINDOW_ANALYTICS_ERROR from '../../constants/missing-window-analytics-error';
-import type AnalyticsWindow from '../../types/analytics-window';
-import getAnalyticsWindow from '../../utils/get-analytics-window';
+import ANALYTICS_WINDOW from '../../test/constants/analytics-window';
 import useSegment from './segment.hook';
-
-const ANALYTICS_WINDOW: AnalyticsWindow = getAnalyticsWindow();
 
 const resolveRef = (
   ref: Readonly<MutableRefObject<VoidFunction | undefined>>,

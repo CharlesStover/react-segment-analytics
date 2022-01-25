@@ -1,0 +1,11 @@
+/.git/
+/.yarn/
+/dist/
+/jest/cache/
+/jest/coverage/
+/types/
+/*.md
+/.pnp.cjs
+/.pnp.loader.mjs
+/LICENSE
+/yarn.lock

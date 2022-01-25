@@ -3,15 +3,18 @@
 
   "exclude": [
     ".git",
-    ".vscode",
     ".yarn",
     "dist",
     "jest",
     "node_modules",
-    "types"
+    "types",
+    "**/*.md"
   ],
 
   "include": [
+    ".eslintrc.json",
+    ".prettierrc.json",
+    ".yarnrc.yml",
     "**/*.cjs",
     "**/*.d.ts",
     "**/*.js",
