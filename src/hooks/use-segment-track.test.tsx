@@ -14,9 +14,7 @@ describe('useSegmentTrack', (): void => {
     const TEST_TRACK = jest.fn();
     const { result } = renderHook(useSegmentTrack, {
       // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-      wrapper({
-        children,
-      }: Readonly<PropsWithChildren<unknown>>): ReactElement {
+      wrapper({ children }: Readonly<PropsWithChildren>): ReactElement {
         return (
           <SegmentTrack.Provider value={TEST_TRACK}>
             {children}

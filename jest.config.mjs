@@ -24,6 +24,7 @@ export default {
     },
   },
   transform: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     '^.+\\.tsx?$': 'ts-jest',
   },
 };

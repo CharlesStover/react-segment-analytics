@@ -14,9 +14,7 @@ describe('useSegmentPage', (): void => {
     const TEST_PAGE = jest.fn();
     const { result } = renderHook(useSegmentPage, {
       // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
-      wrapper({
-        children,
-      }: Readonly<PropsWithChildren<unknown>>): ReactElement {
+      wrapper({ children }: Readonly<PropsWithChildren>): ReactElement {
         return (
           <SegmentPage.Provider value={TEST_PAGE}>
             {children}
