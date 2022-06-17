@@ -55,6 +55,7 @@ describe('useSegment', (): void => {
       delete ANALYTICS_WINDOW.analytics;
 
       let error: Error | null = null;
+      // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
       const setError = (err: Readonly<Error>): void => {
         error = err;
       };
@@ -101,6 +102,7 @@ describe('useSegment', (): void => {
       delete ANALYTICS_WINDOW.analytics;
 
       let error: Error | null = null;
+      // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
       const setError = (err: Readonly<Error>): void => {
         error = err;
       };

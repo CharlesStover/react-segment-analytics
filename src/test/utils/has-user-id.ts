@@ -11,7 +11,7 @@ export default function hasUserId(
   'identify',
   string,
   Traits,
-  ...(readonly unknown[])
+  ...(readonly unknown[]),
 ] {
   return typeof identifyAnalytics[SECOND_ITEM] === 'string';
 }
