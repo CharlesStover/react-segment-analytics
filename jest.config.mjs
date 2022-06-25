@@ -11,9 +11,6 @@ export default {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{ts,tsx}',
     '!<rootDir>/src/**/*.d.ts',
-    '!<rootDir>/src/**/*.stories.{ts,tsx}',
-    '!<rootDir>/src/**/*.test.{ts,tsx}',
-    '!<rootDir>/src/**/test-utils/*.{ts,tsx}',
   ],
   coverageThreshold: {
     global: {
@@ -25,6 +22,12 @@ export default {
   },
   transform: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': 'babel-jest',
+
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    '@segment': 'babel-jest',
   },
+  transformIgnorePatterns: [
+    '/node_modules/(?!@segment/analytics-next/dist/pkg/)',
+  ],
 };

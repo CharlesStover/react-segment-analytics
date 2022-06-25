@@ -50,10 +50,6 @@
     "/dist/",
     "/jest/",
     "/node_modules/",
-    "/types/",
-    "**/test-utils/*.ts",
-    "**/test-utils/*.tsx",
-    "**/*.test.ts",
-    "**/*.test.tsx"
+    "/types/"
   ]
 }
