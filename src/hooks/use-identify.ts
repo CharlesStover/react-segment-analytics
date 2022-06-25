@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import type { AnalyticsBrowser } from '@segment/analytics-next';
+import type { MutableRefObject } from 'react';
+import { useEffect, useRef } from 'react';
 import type AddressTrait from '../types/address-trait';
-import type AnalyticsWindow from '../types/analytics-window';
 import type CompanyTrait from '../types/company-trait';
 import type IdentifyTraits from '../types/identify-traits';
 import type Traits from '../types/traits';
 import filterByUndefined from '../utils/filter-by-undefined';
-import getAnalyticsWindow from '../utils/get-analytics-window';
 import mapValueToIsoDate from '../utils/map-value-to-iso-date';
 import mapValueToString from '../utils/map-value-to-string';
 import parseStringifiedObject from '../utils/parse-stringified-object';
@@ -16,8 +16,10 @@ const DEFAULT_TRAITS: Traits = Object.freeze({});
 
 export default function useIdentify(
   // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+  analytics: Readonly<AnalyticsBrowser>,
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   traits: Readonly<Traits> | undefined,
-): void {
+): MutableRefObject<Promise<unknown> | null> {
   const {
     address,
     age,
@@ -59,12 +61,12 @@ export default function useIdentify(
   //   check for deep equality.
   const restTraitsStringified: string = JSON.stringify(restTraits);
 
-  useEffect((): void => {
-    const analyticsWindow: AnalyticsWindow = getAnalyticsWindow();
-    if (typeof analyticsWindow.analytics === 'undefined') {
-      return;
-    }
+  // States
+  const asyncIdentifyRef: MutableRefObject<Promise<unknown> | null> =
+    useRef(null);
 
+  // Effects
+  useEffect((): void => {
     const getAddress = (): AddressTrait | undefined => {
       const addressSubtraits: unknown[] = [
         addressCity,
@@ -149,7 +151,7 @@ export default function useIdentify(
       return;
     }
 
-    analyticsWindow.analytics.identify(identifyId, identifyTraits);
+    asyncIdentifyRef.current = analytics.identify(identifyId, identifyTraits);
   }, [
     addressCity,
     addressCountry,
@@ -157,6 +159,7 @@ export default function useIdentify(
     addressState,
     addressStreet,
     age,
+    analytics,
     avatar,
     birthday,
     companyEmployeeCount,
@@ -178,4 +181,6 @@ export default function useIdentify(
     username,
     website,
   ]);
+
+  return asyncIdentifyRef;
 }

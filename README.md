@@ -37,14 +37,8 @@ import Segment from 'react-segment-analytics';
 
 #### Props
 
-##### `eventPrefix`
-
-Type: `string` (optional)
-
-By providing an event prefix, all events emit by the `useTrack` hook will be
-prefixed with the provided value. This is useful when you have multiple projects
-within a single organization and want to compare events across projects by
-joining them on shared properties, such as user ID.
+You can pass any of the Segment Analytics browser settings or init options to
+the `Segment` component. The only _required_ prop is `writeKey`.
 
 ##### `traits`
 
@@ -56,10 +50,6 @@ Be sure to provide the `id` trait to make the user onymous.
 ```typescript
 import type { Traits } from 'react-segment-analytics';
 ```
-
-##### `writeKey`
-
-Type: `string` (required)
 
 ### Hooks
 
@@ -116,7 +106,9 @@ the network request to Segment.
 
 ## Contributing
 
+To contribute, clone this repository, then run the following commands:
+
 - `yarn set version latest`
-- `yarn up * @*/*`
+- `yarn up "*" "@*/*"`
 - If you use VIM, run `yarn sdks vim`.
 - If you use Visual Studio Code, run `yarn sdks vscode`.
